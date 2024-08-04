@@ -19,8 +19,31 @@ public class Main {
         System.out.println("Максимальная зп сотрудника: " + findMaxSalary());
         System.out.println("Среднее значение зп: " + calculateAverageSalary());
         printFullName();
+
+        indexationOfSalary(10);
+        System.out.println(employees[2].getSalary());
+
+        System.out.println("Сотрудник с минимальной зп по департаменту " + findEmployeeMinSalaryOfDepartment(1).getDepartment() + ": " + findEmployeeMinSalaryOfDepartment(1).getFullName());
+        System.out.println("Сотрудник с максимальной зп по департаменту " + findEmployeeMaxSalaryOfDepartment(4).getDepartment() + ": " + findEmployeeMaxSalaryOfDepartment(4).getFullName());
+
+        System.out.println("Сумма затрат на зп по отделу " + calculateEmployeeSalaryOfDepartment(1));
+
+        System.out.println("Среднее значение зп отдела: " + calculateAverageSalaryOfDepartment(2));
+
+        indexingSalaryAllWorkersOfDepartment(10, 2);
+
+        printAllWorkersWithAllInfoButWithoutDepartment();
+
+
+        printEmployeeLessNumber(100000);
+        printEmployeeMoreNumber(100000);
     }
 
+    public static void printEmployee() {
+        for (Employee employee : employees) {
+            System.out.println(employee);
+        }
+    }
 
     public static int calculateAllSalary() {
         if (employees.length == 0) return 0;
@@ -61,6 +84,99 @@ public class Main {
     public static void printFullName() {
         for (int i = 0; i < employees.length; i++) {
             System.out.println(employees[i].getFullName());
+        }
+        System.out.println("=====================================================");
+    }
+
+    public static void indexationOfSalary(int percent) {
+        for (Employee employee : employees) {
+            int indexedSalary = employee.getSalary();
+            employee.setSalary((int) (indexedSalary * (percent / 100f + 1)));
+        }
+    }
+
+    public static Employee findEmployeeMinSalaryOfDepartment(int department) {
+        int minSalary = Integer.MAX_VALUE;
+        Employee result = null;
+        for (Employee employee : employees) {
+            if (employee.getDepartment() != department) {
+                continue;
+            }
+            if (employee.getSalary() < minSalary) {
+                minSalary = employee.getSalary();
+                result = employee;
+            }
+        }
+        return result;
+    }
+
+    public static Employee findEmployeeMaxSalaryOfDepartment(int department) {
+        int maxSalary = Integer.MIN_VALUE;
+        Employee result = null;
+        for (Employee employee : employees) {
+            if (employee.getDepartment() != department) {
+                continue;
+            }
+            if (employee.getSalary() > maxSalary) {
+                maxSalary = employee.getSalary();
+                result = employee;
+            }
+        }
+        return result;
+    }
+
+    public static int calculateEmployeeSalaryOfDepartment(int department) {
+        int sum = 0;
+        for (Employee employee : employees) {
+            if (employee.getDepartment() == department) {
+                sum += employee.getSalary();
+            }
+        }
+        return sum;
+    }
+
+    public static int calculateAverageSalaryOfDepartment(int department) {
+        int count = 0;
+        int sum = 0;
+        for (Employee employee : employees) {
+            if (employee.getDepartment() == department) {
+                sum += employee.getSalary();
+                count++;
+            }
+        }
+        return sum / (int) count;
+    }
+
+    public static void indexingSalaryAllWorkersOfDepartment(int percent, int department) {
+        for (Employee employee : employees) {
+            if (employee.getDepartment() == department) {
+                int indexedSalary = employee.getSalary();
+                employee.setSalary((int) (indexedSalary * (percent / 100f + 1)));
+            }
+        }
+    }
+
+    public static void printAllWorkersWithAllInfoButWithoutDepartment() {
+        for (Employee employee : employees) {
+            System.out.println(employee.getId() + " ФИО: " + employee.getFullName() + ". Зарплата: " + employee.getSalary());
+        }
+    }
+
+
+    public static void printEmployeeLessNumber(int number) {
+        System.out.println("Сотрудники с зп меньше заданного числа = " + number + ":");
+        for (Employee employee : employees) {
+            if (employee.getSalary() < number) {
+                System.out.println(employee.getId() + " ФИО: " + employee.getFullName() + ". Зарплата: " + employee.getSalary());
+            }
+        }
+    }
+    public static void printEmployeeMoreNumber(int number) {
+        System.out.println("Сотрудники с зп больше заданного числа = " + number + ":");
+        for (Employee employee : employees) {
+            if (employee.getSalary() < number) {
+                System.out.println(employee.getId() + " ФИО: " + employee.getFullName() + ". Зарплата: " + employee.getSalary());
+            }
         }
     }
 }
